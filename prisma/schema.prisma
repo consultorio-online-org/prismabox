@@ -14,6 +14,7 @@ generator prismabox {
   additionalFieldsPlain = ["additional: Type.Optional(Type.String())"]
   useJsonTypes          = true
   allowRecursion        = false
+  importFileExtension   = ".js"
 }
 
 model Password {

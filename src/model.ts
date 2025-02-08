@@ -30,7 +30,7 @@ function convertModelToStandalone(
   return `export const ${getConfig().exportedTypePrefix}${input.name} = ${input.stringRepresentation}\n`;
 }
 
-function typepoxImportStatement() {
+function typeboxImportStatement() {
   return `import { ${getConfig().typeboxImportVariableName} } from "${
     getConfig().typeboxImportDependencyName
   }"\n`;
@@ -132,7 +132,7 @@ export function mapAllModelsForWrite() {
   for (const [key, value] of modelsPerName) {
     modelsPerName.set(
       key,
-      `${typepoxImportStatement()}\n${transformDateImportStatement()}\n${nullableImport()}\n${value}`,
+      `${typeboxImportStatement()}\n${transformDateImportStatement()}\n${nullableImport()}\n${value}`,
     );
   }
 
