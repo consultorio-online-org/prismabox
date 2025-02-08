@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -44,7 +44,8 @@ model Item {
 
 model Category {
   id   Int    @id @default(autoincrement())
-  name String @unique
+  // category.name
+  name String @unique @db.VarChar(122)
   Item Item[]
 }
 
@@ -310,7 +311,6 @@ model Message {
   author      User            @relation(fields: [authorId], references: [id])
   authorId    String
   timestamp   DateTime
-  status      MessageStatus[] @default([UNREAD])
   forwarded   Boolean         @default(false) /// If the message was forwarded to the Research Service
 
   /// Saved Metadata without relation

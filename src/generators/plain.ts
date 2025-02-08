@@ -15,6 +15,7 @@ import {
 import { wrapWithArray } from "./wrappers/array";
 import { wrapWithNullable } from "./wrappers/nullable";
 import { wrapWithOptional } from "./wrappers/optional";
+import { wrapWithVarChar } from "./wrappers/varchar";
 
 export const processedPlain: ProcessedModel[] = [];
 
@@ -115,6 +116,14 @@ export function stringifyPlain(
         )!.stringRepresentation;
       } else {
         return undefined;
+      }
+
+      const varCharIdx = field.nativeType?.findIndex(nt => nt === 'VarChar') ?? 0;
+      if (field.nativeType && varCharIdx > -1 && (varCharIdx + 1) < (field.nativeType?.length ?? 0)) {
+        const [size] = field.nativeType[varCharIdx + 1];
+        if (!Number.isNaN(Number(size))) {
+          stringifiedType = wrapWithVarChar(stringifiedType, Number(size));
+        }
       }
 
       if (field.isList) {

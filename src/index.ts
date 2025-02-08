@@ -15,6 +15,7 @@ import {
 import { processSelect } from "./generators/select";
 import { processWhere, processWhereUnique } from "./generators/where";
 import { write } from "./writer";
+import { getDMMF } from '@prisma/internals';
 
 generatorHandler({
   onManifest() {
@@ -24,6 +25,9 @@ generatorHandler({
     };
   },
   async onGenerate(options) {
+    const dmmf = await getDMMF({datamodel: options.datamodel})
+    options.dmmf = dmmf;
+
     setConfig({
       ...options.generator.config,
       // for some reason, the output is an object with a value key
